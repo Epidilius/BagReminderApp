@@ -15,6 +15,7 @@
 //Array for locations
 //Array for toggles
     ///Maybe have a pair list, with the location as a string (eg "-70,45") and the toggle as a bool
+    //Make a struct for the locations. Have lat, lng, id, toggle, etc. Make array of these
 
 @interface FirstViewController ()
 
@@ -24,6 +25,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self addButtonsToScrollView];
+    
+    //CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    //self.UIScrollMainPage.contentSize = CGSizeMake(self.UIScrollMainPage.frame.size.width/2,
+    //                                               self.UIScrollMainPage.contentSize.height);
+    
     // Do any additional setup after loading the view, typically from a nib.
     
     //TODO: Get file lcoation, save to member
@@ -77,13 +85,36 @@
 }
 
 -(void)AddLocationToContainer {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button addTarget:self
-               action:@selector(aMethod:)
-     forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"Show View" forState:UIControlStateNormal];
-    button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-    [_view addSubview:button];
+    //TODO: Add to the struct and the array of those structs
+    UIBarButtonItem *flipButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Flip"
+                                   style:UIBarButtonItemStyleBordered
+                                   target:self
+                                   action:@selector(flipView:)];
+    self.navigationItem.rightBarButtonItem = flipButton;
+}
+
+- (void)addButtonsToScrollView
+{
+    NSInteger buttonCount = 15;
+    
+    CGRect buttonFrame = CGRectMake(5.0f, 5.0f, 10.0f, 40.0f);
+    
+    for (int index = 1; index <buttonCount; index++) {
+        UISwitch *toggle = [[UISwitch alloc] init];
+        [toggle setFrame:buttonFrame];
+        [toggle setTag:index+1];
+        
+        buttonFrame.origin.y += buttonFrame.size.height+5.0f;
+        buttonFrame.origin.x = self.UIScrollMainPage.frame.size.width-20;
+        
+        [self.UIScrollMainPage addSubview:toggle];
+    }
+    
+    CGSize contentSize = self.UIScrollMainPage.frame.size;
+    contentSize.height = buttonFrame.origin.y;
+    [self.UIScrollMainPage setContentSize:contentSize];
+    
 }
 
 //Done on startup
