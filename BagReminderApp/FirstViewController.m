@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self addButtonsToScrollView];
+    //[self addButtonsToScrollView];
     
     //CGFloat width = [UIScreen mainScreen].bounds.size.width;
     //self.UIScrollMainPage.contentSize = CGSizeMake(self.UIScrollMainPage.frame.size.width/2,
@@ -101,12 +101,13 @@
     CGRect buttonFrame = CGRectMake(5.0f, 5.0f, 10.0f, 40.0f);
     
     for (int index = 1; index <buttonCount; index++) {
+        buttonFrame.origin.x = self.UIScrollMainPage.frame.size.width-20;
+        
         UISwitch *toggle = [[UISwitch alloc] init];
         [toggle setFrame:buttonFrame];
         [toggle setTag:index+1];
         
         buttonFrame.origin.y += buttonFrame.size.height+5.0f;
-        buttonFrame.origin.x = self.UIScrollMainPage.frame.size.width-20;
         
         [self.UIScrollMainPage addSubview:toggle];
     }
