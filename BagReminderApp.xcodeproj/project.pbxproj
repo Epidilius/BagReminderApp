@@ -12,7 +12,6 @@
 		6BD68CDD1BEAD7240076610E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CDC1BEAD7240076610E /* main.m */; };
 		6BD68CE01BEAD7240076610E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CDF1BEAD7240076610E /* AppDelegate.m */; };
 		6BD68CE31BEAD7240076610E /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CE21BEAD7240076610E /* FirstViewController.m */; };
-		6BD68CE61BEAD7240076610E /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CE51BEAD7240076610E /* SecondViewController.m */; };
 		6BD68CE91BEAD7240076610E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD68CE71BEAD7240076610E /* Main.storyboard */; };
 		6BD68CEB1BEAD7240076610E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BD68CEA1BEAD7240076610E /* Images.xcassets */; };
 		6BD68CEE1BEAD7240076610E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD68CEC1BEAD7240076610E /* LaunchScreen.xib */; };
@@ -43,8 +42,6 @@
 		6BD68CDF1BEAD7240076610E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6BD68CE11BEAD7240076610E /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		6BD68CE21BEAD7240076610E /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		6BD68CE41BEAD7240076610E /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		6BD68CE51BEAD7240076610E /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		6BD68CE81BEAD7240076610E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6BD68CEA1BEAD7240076610E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6BD68CED1BEAD7240076610E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -106,8 +103,6 @@
 				6BD68CDF1BEAD7240076610E /* AppDelegate.m */,
 				6BD68CE11BEAD7240076610E /* FirstViewController.h */,
 				6BD68CE21BEAD7240076610E /* FirstViewController.m */,
-				6BD68CE41BEAD7240076610E /* SecondViewController.h */,
-				6BD68CE51BEAD7240076610E /* SecondViewController.m */,
 				6BD68CE71BEAD7240076610E /* Main.storyboard */,
 				6BD68CEA1BEAD7240076610E /* Images.xcassets */,
 				6BD68CEC1BEAD7240076610E /* LaunchScreen.xib */,
@@ -369,7 +364,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BD68CE61BEAD7240076610E /* SecondViewController.m in Sources */,
 				6BD68CE01BEAD7240076610E /* AppDelegate.m in Sources */,
 				6BDE7B9A1BF044B9004A0811 /* LocationStruct.m in Sources */,
 				6BD68CE31BEAD7240076610E /* FirstViewController.m in Sources */,

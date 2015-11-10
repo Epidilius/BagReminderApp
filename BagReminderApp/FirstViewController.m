@@ -11,14 +11,10 @@
 @import GoogleMaps;
 
 //TODO: Swipe to delete
-//TODO: Location based logic
-    //Make a background service
-    //Have it monitor user location and compare to the active locations in the list
-    //When close, send notification and switch a bool titled "mHasBeenToStore"
-        //Users can go to multiple stores this way, and be notified every time
-    //When the user gets home, if the bool is YES send a notifciation and start a 5 minute timer to send a second one
-        //Cancel the timer if they click the notification
-
+//TODO: Install to phone, test it out!
+//TODO: Add two buttons to test notifs.
+    //Or just have the two that are there do that
+    //Have them call the notifs function, then return
 
 //dataUsingEncoding:NSUTF8StringEncoding
 
@@ -45,8 +41,10 @@
     self.HomeLocationSaveLocation = [self.HomeLocationSaveLocation stringByAppendingString:@".txt"];
     self.StoreLocationsSaveLocation = [self.StoreLocationsSaveLocation stringByAppendingString:@".txt"];
     
-    self.mOldHeading = nil;
+    self.mOldHeading = -1;
     self.mOldLocation = nil;
+    self.mHomeCoordinates = CLLocationCoordinate2DMake(0, 0);
+    self.mDidGoToStore = NO;
     
     self.mLocation = @"";
     self.mLocationClient = [[GMSPlacesClient alloc] init];
@@ -114,6 +112,8 @@
 - (void)LoadButtonsAndHome {
     [self LoadFile:self.HomeLocationSaveLocation HomeOrNot:YES];
     [self LoadFile:self.StoreLocationsSaveLocation HomeOrNot:NO];
+    
+    [self SendNotificationFromHome:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,7 +124,15 @@
 - (IBAction)SetHomeButton:(id)sender {
     
     self.HomeLocationTextBox.text = self.mLocation;
-    [self SaveFileWithData:self.mLocation Directory:self.HomeLocationSaveLocation];
+    NSString* lat = [NSString stringWithFormat:@"%f", self.mHomeCoordinates.latitude];
+    NSString* lng = [NSString stringWithFormat:@"%f", self.mHomeCoordinates.longitude];
+    
+    NSString* textToSave = [self.mLocation stringByAppendingString:@"|"];
+    textToSave = [textToSave stringByAppendingString:lat];
+    textToSave = [textToSave stringByAppendingString:@"|"];
+    textToSave = [textToSave stringByAppendingString:lng];
+    
+    [self SaveFileWithData:textToSave Directory:self.HomeLocationSaveLocation];
 }
 
 - (IBAction)AddNewLocation:(id)sender {
@@ -187,6 +195,7 @@
             GMSPlace *place = [[[likelihoodList likelihoods] firstObject] place];
             if (place != nil) {
                 NSLog(@"Place Name: ", place.name);
+                self.mHomeCoordinates = place.coordinate;
                 self.mLocation = [[place.formattedAddress componentsSeparatedByString:@", "]
                                           componentsJoinedByString:@"\n"];
             }
@@ -237,8 +246,21 @@
             {
                 NSString* homeStr = [[NSString alloc] initWithData:file encoding:NSUTF8StringEncoding];
                 
-                self.HomeLocationTextBox.text = homeStr;
-                self.mLocation = homeStr;
+                NSArray* splitHome = [homeStr componentsSeparatedByString:@"|"];
+                //0 = Locatin
+                //1 = Latitude
+                //2 = Longitude
+                
+                self.HomeLocationTextBox.text = [splitHome objectAtIndex:0];
+                self.mLocation = [splitHome objectAtIndex:0];
+                
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+                
+                float lat = [numberFormatter numberFromString:[splitHome objectAtIndex:1]].floatValue;
+                float lng = [numberFormatter numberFromString:[splitHome objectAtIndex:2]].floatValue;
+                
+                self.mHomeCoordinates = CLLocationCoordinate2DMake(lat, lng);
             }
             else
             {
@@ -395,32 +417,141 @@
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    if (abs(howRecent) < 15.0) {
-        // If the event is recent, do something with it.
-        if(![self.mOldLocation isEqual:nil])
+    if (abs(howRecent) < 15.0)
+    {
+        if(self.mOldHeading == -1)
         {
-            //TODO: Distance check? No, I don't think thta is necessary
-            if(![self.mOldHeading isEqual:nil])
+            self.mOldHeading = location.course;
+        }
+        
+        //Check for within 200 meters of home
+        if([self DistanceBetweenOrigin:location.coordinate Destination:self.mHomeCoordinates] < 200 && self.mDidGoToStore)
+        {
+            //If this isn't nil it means you've made a sharp turn
+            if(self.mOldLocation != nil)
             {
+                if([self DistanceBetweenOrigin:self.mOldLocation.coordinate Destination:location.coordinate] > 3)
+                {
+                    [self.mTimer invalidate];
+                    self.mTimer = nil;
+                    self.mOldLocation = nil;
+                }
+            }
+            //Heading check to see if the angle was sharp enough
+            if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 40)
+            {
+                self.mOldLocation = location;
+                self.mTimer =   [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                 target:self
+                                                               selector:@selector(ArrivedHome)
+                                                               userInfo:nil
+                                                                repeats:NO];
+            }
+        }
+        
+        for(int i = 0; i < self.mArrayOfLocations.count; i++)
+        {
+            if(![[self.mArrayOfLocations objectAtIndex:i] getOnOff].on)
+                continue;
+            
+            CLLocationDegrees tempLat = [[self.mArrayOfLocations objectAtIndex:i] getLat];
+            CLLocationDegrees tempLng = [[self.mArrayOfLocations objectAtIndex:i] getLng];
+            CLLocationCoordinate2D tempCoords = CLLocationCoordinate2DMake(tempLat, tempLng);
+            
+            //Check for within 200 meters of store
+            if([self DistanceBetweenOrigin:location.coordinate Destination:tempCoords] < 200)
+            {
+                //If this isn't nil it means you've made a sharp turn
+                if(self.mOldLocation != nil)
+                {
+                    if([self DistanceBetweenOrigin:self.mOldLocation.coordinate Destination:location.coordinate] > 3)
+                    {
+                        [self.mTimer invalidate];
+                        self.mTimer = nil;
+                        self.mOldLocation = nil;
+                    }
+                    
+                    break;
+                }
                 //Heading check to see if the angle was sharp enough
-            }
-            else
-            {
-                //Set the heading because it is nil
+                if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 40)
+                {
+                    self.mOldLocation = location;
+                    self.mTimer =   [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                     target:self
+                                                                   selector:@selector(ArrivedAtStore)
+                                                                   userInfo:nil
+                                                                    repeats:NO];
+                    
+                    break;
+                }
             }
         }
-        else
-        {
-            //Set the location because it is nil
-        }
+    
         NSLog(@"latitude %+.6f, longitude %+.6f\n",
               location.coordinate.latitude,
               location.coordinate.longitude);
     }
 }
 
+- (void)ArrivedAtStore {
+    self.mDidGoToStore = YES;
+    self.mOldLocation = nil;
+    [self SendNotificationFromHome:NO];
+}
+
+- (void)ArrivedHome {
+    self.mDidGoToStore = NO;
+    self.mOldLocation = nil;
+    [self SendNotificationFromHome:YES];
+}
+
+- (void)SendNotificationFromHome:(bool)aFromHome {
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    
+    // current time plus 10 secs
+    NSDate *now = [NSDate date];
+    NSDate *dateToFire = [now dateByAddingTimeInterval:5];
+    
+    localNotification.fireDate = dateToFire;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    
+    if(aFromHome)
+        localNotification.alertBody = @"Don't forget to take your bags back to your car!";
+    else
+        localNotification.alertBody = @"Don't forget to take your bags!";
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"Unable to start location manager. Error:%@", [error description]);
+}
+
+-(double)DistanceBetweenOrigin:(CLLocationCoordinate2D)aOrigin Destination:(CLLocationCoordinate2D)aDestination {
+    float meters = 6371000;
+    
+    double lat1 = aOrigin.latitude;
+    double lng1 = aOrigin.longitude;
+    double lat2 = aDestination.latitude;
+    double lng2 = aDestination.longitude;
+    
+    double lat1InRads = lat1 * (M_PI / 180.0f);
+    double lat2InRads = lat2 * (M_PI / 180.0f);
+    
+    double thetaLat = (lat2 - lat1) * (M_PI / 180.0f);
+    double thetaLng = (lng2 - lng1) * (M_PI / 180.0f);
+    
+    double dist =   sinf(thetaLat / 2) * sinf(thetaLat / 2) +
+                    cosf(lat1InRads) * cosf(lat2InRads) *
+                    sinf(thetaLng / 2) * sinf(thetaLng / 2);
+    
+    double otherDist = 2 * atan2(sqrt(dist), sqrt(1 - dist));
+    
+    double finalDist = meters * otherDist;
+    
+    return finalDist;
 }
 
 @end

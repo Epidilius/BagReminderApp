@@ -12,10 +12,13 @@
 @interface FirstViewController : UIViewController
 
 @property (strong, nonatomic) CLLocation* mOldLocation;
-@property (strong, nonatomic) CLHeading* mOldHeading;
+@property CLLocationDirection mOldHeading;
 
 @property(strong, nonatomic) NSString* mLocation;
 @property(strong, nonatomic) NSMutableArray* mArrayOfLocations;
+@property CLLocationCoordinate2D mHomeCoordinates;
+@property bool mDidGoToStore;
+@property (strong, nonatomic) NSTimer* mTimer;
 
 @property (strong, nonatomic) GMSPlacePicker* mPlacePicker;
 
