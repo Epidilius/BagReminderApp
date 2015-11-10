@@ -24,6 +24,12 @@
 
 @implementation FirstViewController
 
+enum {
+    kTagTextView = 1000,
+    kTagButton = 2000,
+    kTagToggle = 3000,
+};
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -356,10 +362,23 @@
         NSData *file = [[NSData alloc] initWithContentsOfFile:aDir];
         if (file)
         {
+            int idToSwap = -1;
             NSString* fileString = [[NSString alloc] initWithData:file encoding:NSUTF8StringEncoding];
             
             NSMutableArray* locStringArray = [fileString componentsSeparatedByString:@"EOL"];
-            [locStringArray replaceObjectAtIndex:aID withObject:aFileData];
+            
+            for(int i = 0; i < locStringArray.count; i++)
+            {
+                NSArray* locSingle = [[locStringArray objectAtIndex:i] componentsSeparatedByString:@"|"];
+                //0 = ID
+                if([[locSingle objectAtIndex:0] intValue] == aID)
+                {
+                    idToSwap = i;
+                    break;
+                }
+
+            }
+            [locStringArray replaceObjectAtIndex:idToSwap withObject:aFileData];
             
             fileString = @"";
             
@@ -394,32 +413,132 @@
     }
 }
 
+-(void)deleteButton:(id)sender {
+    //TODO: Ask for confiramtion, use address
+    // kTagTextView = 1000,
+    //kTagButton = 2000,
+    //kTagToggle = 3000,
+    
+    float tagButton = [sender tag];
+    float tagText = tagButton - 1000.0f;
+    float tagToggle = tagButton + 1000.0f;
+    
+    float idToSwap = -1.0f;
+    int index = -1;
+    
+    for(int i = 0; i < self.mArrayOfLocations.count; i++)
+    {
+        if([[[self.mArrayOfLocations objectAtIndex:i] getOnOff] tag] == tagToggle)
+        {
+            idToSwap = [[self.mArrayOfLocations objectAtIndex:i] getID];
+            index = i;
+            break;
+        }
+    }
+    
+    
+    for(UIView* subview in [self.UIScrollMainPage subviews])
+    {
+        CGRect frame;
+        
+        if([subview isKindOfClass:[UITextView class]])
+        {
+            if([subview tag] > tagText)
+            {
+                int tag = [subview tag];
+                
+                //Start with UITextView
+                frame = [self.UIScrollMainPage viewWithTag:(tag)].frame;
+                frame.origin.y -= 40;
+                [[self.UIScrollMainPage viewWithTag:(tag)] setFrame:frame];
+            }
+        }
+        
+        else if([subview isKindOfClass:[UIButton class]])
+        {
+            if([subview tag] > tagButton)
+            {
+                int tag = [subview tag];
+                
+                //Then Button
+                frame = [self.UIScrollMainPage viewWithTag:(tag)].frame;
+                frame.origin.y -= 40;
+                [[self.UIScrollMainPage viewWithTag:(tag)] setFrame:frame];
+            }
+        }
+        else if([subview isKindOfClass:[UISwitch class]])
+        {
+            if([subview tag] > tagToggle)
+            {
+                int tag = [subview tag];
+                
+                //Finally Toggle
+                frame = [self.UIScrollMainPage viewWithTag:(tag)].frame;
+                frame.origin.y -= 40;
+                [[self.UIScrollMainPage viewWithTag:(tag)] setFrame:frame];
+            }
+        }
+        //TODO: Make this work
+    }
+    
+    [[self.UIScrollMainPage viewWithTag:tagButton]removeFromSuperview];
+    [[self.UIScrollMainPage viewWithTag:tagText]removeFromSuperview];
+    [[self.UIScrollMainPage viewWithTag:tagToggle]removeFromSuperview];
+    
+    [self.mArrayOfLocations removeObjectAtIndex:index];
+    
+    [self SwapData:@"" AtID:idToSwap Directory:self.StoreLocationsSaveLocation];
+    
+    //TODO: Refresh
+}
+
 -(UISwitch*)AddLocationToContainer:(NSString*)aAddress WithState:(bool)aState{
-    CGRect buttonFrame = CGRectMake(5.0f, 5.0f, 10.0f, 40.0f);
+    CGRect buttonFrame = CGRectMake(5.0f, 5.0f, 25.0f, 25.0f);
+    CGRect toggleFrame = CGRectMake(5.0f, 5.0f, 10.0f, 40.0f);
     CGRect textFrame = CGRectMake(5.0f, 5.0f, self.UIScrollMainPage.frame.size.width-100.0f, 40.0f);\
     
-    buttonFrame.origin.x = self.UIScrollMainPage.frame.size.width-50.0f;
-    buttonFrame.origin.y += self.mArrayOfLocations.count * 40.0f;
+    //Setting Height
+    toggleFrame.origin.x = self.UIScrollMainPage.frame.size.width-50.0f;
+    toggleFrame.origin.y += self.mArrayOfLocations.count * 40.0f;
     
     textFrame.origin.y += self.mArrayOfLocations.count * 40.0f;
-        
+    
+    buttonFrame.origin.x = toggleFrame.origin.x-40.0f;
+    buttonFrame.origin.y += toggleFrame.origin.y;
+    
+    //Make the toggle
     UISwitch *toggle = [[UISwitch alloc] init];
-    [toggle setFrame:buttonFrame];
-    [toggle setTag:self.mArrayOfLocations.count];
+    [toggle setFrame:toggleFrame];
     [toggle setOn:aState];
     [toggle addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
+    [toggle setTag:(self.mArrayOfLocations.count + kTagToggle)];
     
-    UITextField* text = [[UITextField alloc] init];
+    //Make the text
+    UITextView* text = [[UITextView alloc] init];
     [text setFrame:textFrame];
     [text setText:aAddress];
-    [text setEnabled:NO];
-    [text setTag:self.mArrayOfLocations.count];
+    [text setEditable:NO];
+    [text setScrollEnabled:YES];
+    [text setTag:(self.mArrayOfLocations.count + kTagTextView)];
+    
+    //Make the delete button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self action:@selector(deleteButton:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"X" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setFrame:buttonFrame];
+    button.layer.cornerRadius = 8;
+    button.layer.borderWidth = 1;
+    button.layer.borderColor = [UIColor blueColor].CGColor;
+    [button setBackgroundColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:0.5f]];
+    [button setTag:(self.mArrayOfLocations.count + kTagButton)];
     
     [self.UIScrollMainPage addSubview:toggle];
     [self.UIScrollMainPage addSubview:text];
+    [self.UIScrollMainPage addSubview:button];
     
     CGSize contentSize = self.UIScrollMainPage.frame.size;//[UIScreen mainScreen].applicationFrame.size;
-    contentSize.height = buttonFrame.origin.y;
+    contentSize.height = toggleFrame.origin.y + 40.0f;
     [self.UIScrollMainPage setContentSize:contentSize];
     
     return toggle;
@@ -466,7 +585,7 @@
                 }
             }
             //Heading check to see if the angle was sharp enough
-            if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 40)
+            if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 20)
             {
                 self.mOldLocation = location;
                 self.mTimer =   [NSTimer scheduledTimerWithTimeInterval:5.0
@@ -577,6 +696,8 @@
     
     return finalDist;
 }
+
+
 
 //TEST FUNCTIONS
 - (IBAction)TestHomeNotif:(id)sender {

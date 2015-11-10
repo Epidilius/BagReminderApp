@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BagReminderApp/FirstViewController.m"
-            timestampString = "468874054.824233"
+            timestampString = "468881395.030475"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "-SaveFileWithData:Directory:"
+            startingLineNumber = "484"
+            endingLineNumber = "484"
+            landmarkName = "-deleteButton:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
