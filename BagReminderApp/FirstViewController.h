@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSTimer* mTimer;
 
 @property (strong, nonatomic) GMSPlacePicker* mPlacePicker;
+@property (strong, nonatomic) GMSPlacePicker* mHomePicker;
 
 @property (strong, nonatomic) NSString* HomeLocationSaveLocation;
 @property (strong, nonatomic) NSString* StoreLocationsSaveLocation;
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *UIScrollMainPage;
 @property (weak, nonatomic) IBOutlet UITextField *HomeLocationTextBox;
 
+@property (weak, nonatomic) IBOutlet UITableView *UITableMainPage;
 @property (strong, nonatomic) CLLocationManager* mLocationManager;
 @property (strong, nonatomic) GMSPlacesClient* mLocationClient;
 

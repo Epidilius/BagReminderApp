@@ -32,8 +32,8 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
     
-    self.HomeLocationSaveLocation = [documentsPath stringByAppendingString:@"\\HomeLocation"];
-    self.StoreLocationsSaveLocation = [documentsPath stringByAppendingString:@"\\StoreLocations"];
+    self.HomeLocationSaveLocation = [documentsPath stringByAppendingString:@"/HomeLocation"];
+    self.StoreLocationsSaveLocation = [documentsPath stringByAppendingString:@"/StoreLocations"];
     
     [self CreateDirectory:self.HomeLocationSaveLocation];
     [self CreateDirectory:self.StoreLocationsSaveLocation];
@@ -61,17 +61,12 @@
     
     [self.mLocationManager startUpdatingLocation];
     [self.mLocationManager startUpdatingHeading];
-    //self.mLocationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    //self.mLocationManager.distanceFilter = 1.0f;
-    //self.mLocationManager.headingFilter = 5;
     
     [NSTimer scheduledTimerWithTimeInterval:2.0
                                      target:self
                                    selector:@selector(LoadButtonsAndHome)
                                    userInfo:nil
                                     repeats:NO];
-    
-    [self SetLocationCallback];
 }
 
 
@@ -95,6 +90,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    //TODO: Cancel notifs
     if(self.mLocationManager)
         [self.mLocationManager stopMonitoringSignificantLocationChanges];
     
@@ -113,7 +109,7 @@
     [self LoadFile:self.HomeLocationSaveLocation HomeOrNot:YES];
     [self LoadFile:self.StoreLocationsSaveLocation HomeOrNot:NO];
     
-    [self SendNotificationFromHome:YES];
+    [self SetLocationCallback];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,8 +118,41 @@
 }
 
 - (IBAction)SetHomeButton:(id)sender {
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(51.5108396, -0.0922251);
+    CLLocationCoordinate2D northEast = CLLocationCoordinate2DMake(center.latitude + 0.001, center.longitude + 0.001);
+    CLLocationCoordinate2D southWest = CLLocationCoordinate2DMake(center.latitude - 0.001, center.longitude - 0.001);
+    GMSCoordinateBounds *viewport = [[GMSCoordinateBounds alloc] initWithCoordinate:northEast
+                                                                         coordinate:southWest];
+    GMSPlacePickerConfig *config = [[GMSPlacePickerConfig alloc] initWithViewport:viewport];
+    self.mHomePicker = [[GMSPlacePicker alloc] initWithConfig:config];
     
-    self.HomeLocationTextBox.text = self.mLocation;
+    [self.mHomePicker pickPlaceWithCallback:^(GMSPlace *place, NSError *error) {
+        if (error != nil) {
+            NSLog(@"Pick Place error %@", [error localizedDescription]);
+            return;
+        }
+        
+        if (place != nil) {
+            NSLog(@"Place name %@", place.name);
+            NSLog(@"Place address %@", place.formattedAddress);
+            NSLog(@"Place attributions %@", place.attributions.string);
+            
+            [self SetHomeLocation:place.formattedAddress
+                         Latitude:place.coordinate.latitude
+                        Longitude:place.coordinate.longitude];
+            
+        } else {
+            NSLog(@"No place selected");
+        }
+    }];
+}
+
+- (void)SetHomeLocation:(NSString*)aHomeLoc Latitude:(float)aLat Longitude:(float)aLng {
+    self.HomeLocationTextBox.text = aHomeLoc;
+    self.mLocation = aHomeLoc;
+    
+    self.mHomeCoordinates = CLLocationCoordinate2DMake(aLat, aLng);
+    
     NSString* lat = [NSString stringWithFormat:@"%f", self.mHomeCoordinates.latitude];
     NSString* lng = [NSString stringWithFormat:@"%f", self.mHomeCoordinates.longitude];
     
@@ -196,13 +225,12 @@
             if (place != nil) {
                 NSLog(@"Place Name: ", place.name);
                 self.mHomeCoordinates = place.coordinate;
-                self.mLocation = [[place.formattedAddress componentsSeparatedByString:@", "]
-                                          componentsJoinedByString:@"\n"];
+                //self.mLocation = [[place.formattedAddress componentsSeparatedByString:@", "] componentsJoinedByString:@"\n"];
+                self.mLocation = place.name;
             }
         }
         
     }];
-
 }
 
 -(bool)CheckIfFileExists:(NSString*)aDir {
@@ -487,10 +515,6 @@
                 }
             }
         }
-    
-        NSLog(@"latitude %+.6f, longitude %+.6f\n",
-              location.coordinate.latitude,
-              location.coordinate.longitude);
     }
 }
 
@@ -552,6 +576,23 @@
     double finalDist = meters * otherDist;
     
     return finalDist;
+}
+
+//TEST FUNCTIONS
+- (IBAction)TestHomeNotif:(id)sender {
+    [NSTimer scheduledTimerWithTimeInterval:5.0
+                                     target:self
+                                   selector:@selector(ArrivedHome)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+- (IBAction)TestStoreNotif:(id)sender {
+    [NSTimer scheduledTimerWithTimeInterval:5.0
+                                     target:self
+                                   selector:@selector(ArrivedAtStore)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 @end
