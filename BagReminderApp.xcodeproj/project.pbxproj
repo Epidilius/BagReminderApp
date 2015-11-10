@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0125A815D22E1A81777449E9 /* libPods-BagReminderAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F3E75080AD47B9D0A0D698 /* libPods-BagReminderAppTests.a */; };
+		6BABAAEF1BEC1BDD00465F64 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 6BABAAEE1BEC1BDD00465F64 /* Podfile */; };
 		6BD68CDD1BEAD7240076610E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CDC1BEAD7240076610E /* main.m */; };
 		6BD68CE01BEAD7240076610E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CDF1BEAD7240076610E /* AppDelegate.m */; };
 		6BD68CE31BEAD7240076610E /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CE21BEAD7240076610E /* FirstViewController.m */; };
@@ -15,6 +17,8 @@
 		6BD68CEB1BEAD7240076610E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BD68CEA1BEAD7240076610E /* Images.xcassets */; };
 		6BD68CEE1BEAD7240076610E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD68CEC1BEAD7240076610E /* LaunchScreen.xib */; };
 		6BD68CFA1BEAD7240076610E /* BagReminderAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68CF91BEAD7240076610E /* BagReminderAppTests.m */; };
+		6BDE7B9A1BF044B9004A0811 /* LocationStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE7B991BF044B8004A0811 /* LocationStruct.m */; };
+		CC9BD3740E8E662F2B3ACD14 /* libPods-BagReminderApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE08AF90C7B501294CEF396 /* libPods-BagReminderApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +32,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		022073D37E206E5BC2DD2716 /* Pods-BagReminderApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BagReminderApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BagReminderApp/Pods-BagReminderApp.debug.xcconfig"; sourceTree = "<group>"; };
+		3F90BA55FE85E8EFB0686A1D /* Pods-BagReminderAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BagReminderAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BagReminderAppTests/Pods-BagReminderAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6B645BEB1BF04E7D00F8B197 /* LocationStruct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationStruct.h; sourceTree = "<group>"; };
+		6BABAAEE1BEC1BDD00465F64 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		6BD68CD71BEAD7240076610E /* BagReminderApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BagReminderApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BD68CDB1BEAD7240076610E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BD68CDC1BEAD7240076610E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -43,6 +51,11 @@
 		6BD68CF31BEAD7240076610E /* BagReminderAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BagReminderAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BD68CF81BEAD7240076610E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BD68CF91BEAD7240076610E /* BagReminderAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BagReminderAppTests.m; sourceTree = "<group>"; };
+		6BDE7B991BF044B8004A0811 /* LocationStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationStruct.m; sourceTree = "<group>"; };
+		6E3BCDF3FAE8AE7FC2932AAE /* Pods-BagReminderApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BagReminderApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BagReminderApp/Pods-BagReminderApp.release.xcconfig"; sourceTree = "<group>"; };
+		7F587BB0C58852345CC8B94C /* Pods-BagReminderAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BagReminderAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BagReminderAppTests/Pods-BagReminderAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		87F3E75080AD47B9D0A0D698 /* libPods-BagReminderAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BagReminderAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCE08AF90C7B501294CEF396 /* libPods-BagReminderApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BagReminderApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC9BD3740E8E662F2B3ACD14 /* libPods-BagReminderApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0125A815D22E1A81777449E9 /* libPods-BagReminderAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +84,8 @@
 				6BD68CD91BEAD7240076610E /* BagReminderApp */,
 				6BD68CF61BEAD7240076610E /* BagReminderAppTests */,
 				6BD68CD81BEAD7240076610E /* Products */,
+				F16950F1A6D2070D6F812C1C /* Pods */,
+				82500855AAE3D50E363609F6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +101,7 @@
 		6BD68CD91BEAD7240076610E /* BagReminderApp */ = {
 			isa = PBXGroup;
 			children = (
+				6BABAAEE1BEC1BDD00465F64 /* Podfile */,
 				6BD68CDE1BEAD7240076610E /* AppDelegate.h */,
 				6BD68CDF1BEAD7240076610E /* AppDelegate.m */,
 				6BD68CE11BEAD7240076610E /* FirstViewController.h */,
@@ -94,6 +112,8 @@
 				6BD68CEA1BEAD7240076610E /* Images.xcassets */,
 				6BD68CEC1BEAD7240076610E /* LaunchScreen.xib */,
 				6BD68CDA1BEAD7240076610E /* Supporting Files */,
+				6B645BEB1BF04E7D00F8B197 /* LocationStruct.h */,
+				6BDE7B991BF044B8004A0811 /* LocationStruct.m */,
 			);
 			path = BagReminderApp;
 			sourceTree = "<group>";
@@ -124,6 +144,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		82500855AAE3D50E363609F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CCE08AF90C7B501294CEF396 /* libPods-BagReminderApp.a */,
+				87F3E75080AD47B9D0A0D698 /* libPods-BagReminderAppTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F16950F1A6D2070D6F812C1C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				022073D37E206E5BC2DD2716 /* Pods-BagReminderApp.debug.xcconfig */,
+				6E3BCDF3FAE8AE7FC2932AAE /* Pods-BagReminderApp.release.xcconfig */,
+				3F90BA55FE85E8EFB0686A1D /* Pods-BagReminderAppTests.debug.xcconfig */,
+				7F587BB0C58852345CC8B94C /* Pods-BagReminderAppTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,9 +171,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6BD68CFD1BEAD7240076610E /* Build configuration list for PBXNativeTarget "BagReminderApp" */;
 			buildPhases = (
+				3AAB396747D39E8F56BFD11C /* Check Pods Manifest.lock */,
 				6BD68CD31BEAD7240076610E /* Sources */,
 				6BD68CD41BEAD7240076610E /* Frameworks */,
 				6BD68CD51BEAD7240076610E /* Resources */,
+				020BF68F90D95C2FC758D11E /* Embed Pods Frameworks */,
+				18D967245A9AB1DFE0843495 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -148,9 +191,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6BD68D001BEAD7240076610E /* Build configuration list for PBXNativeTarget "BagReminderAppTests" */;
 			buildPhases = (
+				26E3A73D620075B650622DE8 /* Check Pods Manifest.lock */,
 				6BD68CEF1BEAD7240076610E /* Sources */,
 				6BD68CF01BEAD7240076610E /* Frameworks */,
 				6BD68CF11BEAD7240076610E /* Resources */,
+				C806B56AAAF5A5888C348B25 /* Embed Pods Frameworks */,
+				B1CE3872FB5E42D555F0E45F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -173,6 +219,11 @@
 				TargetAttributes = {
 					6BD68CD61BEAD7240076610E = {
 						CreatedOnToolsVersion = 6.1.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					6BD68CF21BEAD7240076610E = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -206,6 +257,7 @@
 			files = (
 				6BD68CE91BEAD7240076610E /* Main.storyboard in Resources */,
 				6BD68CEE1BEAD7240076610E /* LaunchScreen.xib in Resources */,
+				6BABAAEF1BEC1BDD00465F64 /* Podfile in Resources */,
 				6BD68CEB1BEAD7240076610E /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +271,99 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		020BF68F90D95C2FC758D11E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BagReminderApp/Pods-BagReminderApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		18D967245A9AB1DFE0843495 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BagReminderApp/Pods-BagReminderApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		26E3A73D620075B650622DE8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3AAB396747D39E8F56BFD11C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B1CE3872FB5E42D555F0E45F /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BagReminderAppTests/Pods-BagReminderAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C806B56AAAF5A5888C348B25 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BagReminderAppTests/Pods-BagReminderAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6BD68CD31BEAD7240076610E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -226,6 +371,7 @@
 			files = (
 				6BD68CE61BEAD7240076610E /* SecondViewController.m in Sources */,
 				6BD68CE01BEAD7240076610E /* AppDelegate.m in Sources */,
+				6BDE7B9A1BF044B9004A0811 /* LocationStruct.m in Sources */,
 				6BD68CE31BEAD7240076610E /* FirstViewController.m in Sources */,
 				6BD68CDD1BEAD7240076610E /* main.m in Sources */,
 			);
@@ -349,26 +495,33 @@
 		};
 		6BD68CFE1BEAD7240076610E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 022073D37E206E5BC2DD2716 /* Pods-BagReminderApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BagReminderApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		6BD68CFF1BEAD7240076610E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E3BCDF3FAE8AE7FC2932AAE /* Pods-BagReminderApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BagReminderApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		6BD68D011BEAD7240076610E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F90BA55FE85E8EFB0686A1D /* Pods-BagReminderAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -388,6 +541,7 @@
 		};
 		6BD68D021BEAD7240076610E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F587BB0C58852345CC8B94C /* Pods-BagReminderAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -420,6 +574,7 @@
 				6BD68CFF1BEAD7240076610E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6BD68D001BEAD7240076610E /* Build configuration list for PBXNativeTarget "BagReminderAppTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +583,7 @@
 				6BD68D021BEAD7240076610E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
