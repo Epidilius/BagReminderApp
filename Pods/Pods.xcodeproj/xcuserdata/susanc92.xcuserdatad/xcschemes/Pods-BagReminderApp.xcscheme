@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '15BA3BDD3F0D3C83A196A1DB'
+               BlueprintIdentifier = 'BB064FFCBA4B928CF6549571'
                BlueprintName = 'Pods-BagReminderApp'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-BagReminderApp.a'>

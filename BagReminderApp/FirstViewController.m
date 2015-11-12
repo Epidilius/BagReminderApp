@@ -51,13 +51,14 @@ enum {
     self.mOldLocation = nil;
     self.mHomeCoordinates = CLLocationCoordinate2DMake(0, 0);
     self.mDidGoToStore = NO;
+    self.mMaybeAtStore = NO;
     
     self.mLocation = @"";
     self.mLocationClient = [[GMSPlacesClient alloc] init];
     self.mLocationManager = [[CLLocationManager alloc] init];
     
     [self.mLocationManager setDelegate:self];
-    [self.mLocationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+    [self.mLocationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
     [self.mLocationManager setDistanceFilter:1.0f];
     [self.mLocationManager setHeadingFilter:40.0f];
     [self.mLocationManager setPausesLocationUpdatesAutomatically:YES];
@@ -80,7 +81,7 @@ enum {
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
         self.mLocationManager = [[CLLocationManager alloc]init];
         [self.mLocationManager setDelegate:self];
-        [self.mLocationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+        [self.mLocationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
         [self.mLocationManager setDistanceFilter:1.0f];
         [self.mLocationManager setHeadingFilter:40.0f];
         [self.mLocationManager setPausesLocationUpdatesAutomatically:YES];
@@ -91,7 +92,8 @@ enum {
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [self.mLocationManager startMonitoringSignificantLocationChanges];
+    //startMonitoringSignificantLocationChanges
+    [self.mLocationManager startUpdatingLocation];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -102,13 +104,13 @@ enum {
     
     self.mLocationManager = [[CLLocationManager alloc]init];
     [self.mLocationManager setDelegate:self];
-    [self.mLocationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+    [self.mLocationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
     [self.mLocationManager setDistanceFilter:1.0f];
     [self.mLocationManager setHeadingFilter:40.0f];
     [self.mLocationManager setPausesLocationUpdatesAutomatically:YES];
     [self.mLocationManager setActivityType:CLActivityTypeOther];
     
-    [self.mLocationManager startMonitoringSignificantLocationChanges];
+    [self.mLocationManager startUpdatingLocation];
 }
 
 - (void)LoadButtonsAndHome {
@@ -564,7 +566,9 @@ enum {
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    if (abs(howRecent) < 15.0)
+    float temp = location.horizontalAccuracy;
+    
+    if (fabs(howRecent) < 15.0f)
     {
         if(self.mOldHeading == -1)
         {
@@ -585,7 +589,7 @@ enum {
                 }
             }
             //Heading check to see if the angle was sharp enough
-            if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 20)
+            /*if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 20)
             {
                 self.mOldLocation = location;
                 self.mTimer =   [NSTimer scheduledTimerWithTimeInterval:5.0
@@ -593,7 +597,7 @@ enum {
                                                                selector:@selector(ArrivedHome)
                                                                userInfo:nil
                                                                 repeats:NO];
-            }
+            }*/
         }
         
         for(int i = 0; i < self.mArrayOfLocations.count; i++)
@@ -609,19 +613,35 @@ enum {
             if([self DistanceBetweenOrigin:location.coordinate Destination:tempCoords] < 200)
             {
                 //If this isn't nil it means you've made a sharp turn
-                if(self.mOldLocation != nil)
+                if(self.mOldLocation != nil && self.mMaybeAtStore)
                 {
                     if([self DistanceBetweenOrigin:self.mOldLocation.coordinate Destination:location.coordinate] > 3)
                     {
                         [self.mTimer invalidate];
                         self.mTimer = nil;
                         self.mOldLocation = nil;
+                        self.mMaybeAtStore = YES;
                     }
                     
                     break;
                 }
+                else
+                {
+                    //TODO: A 30 minute wait time? Turn it on in the ArrivedAtStore function
+                    self.mOldLocation = location;
+                    self.mMaybeAtStore = YES;
+                    //Place in an array?
+                    self.mTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                     target:self
+                                                                 selector:@selector(ArrivedAtStoreWithTimer:)
+                                                                   userInfo:[NSString stringWithFormat:@"%i", i]
+                                                                    repeats:NO];
+                    
+                    break;
+                }
                 //Heading check to see if the angle was sharp enough
-                if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 40)
+                /*
+                if(self.mOldHeading != location.course && fabs(self.mOldHeading - location.course) >= 20)
                 {
                     self.mOldLocation = location;
                     self.mTimer =   [NSTimer scheduledTimerWithTimeInterval:5.0
@@ -631,15 +651,17 @@ enum {
                                                                     repeats:NO];
                     
                     break;
-                }
+                }*/
             }
         }
     }
 }
 
-- (void)ArrivedAtStore {
+- (void)ArrivedAtStoreWithTimer:(NSTimer*)aTimer {
     self.mDidGoToStore = YES;
     self.mOldLocation = nil;
+    int index = [[aTimer userInfo] intValue];
+    [[[self.mArrayOfLocations objectAtIndex:index] getOnOff] setOn:NO];
     [self SendNotificationFromHome:NO];
 }
 

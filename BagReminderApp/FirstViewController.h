@@ -18,7 +18,9 @@
 @property(strong, nonatomic) NSMutableArray* mArrayOfLocations;
 @property CLLocationCoordinate2D mHomeCoordinates;
 @property bool mDidGoToStore;
+@property bool mMaybeAtStore;
 @property (strong, nonatomic) NSTimer* mTimer;
+@property (strong, nonatomic) NSMutableArray* mTimers;
 
 @property (strong, nonatomic) GMSPlacePicker* mPlacePicker;
 @property (strong, nonatomic) GMSPlacePicker* mHomePicker;
