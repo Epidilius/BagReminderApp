@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  SecondViewController.h
 //  BagReminderApp
 //
 //  Created by Joel Cright on 2015-11-04.
@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIScrollView *UIScrollMainPage;
+@interface SecondViewController : UIViewController
 
 
 @end
